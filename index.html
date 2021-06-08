@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Micropolling</title>
+  </head>
+  <body>
+    <!-- QUESTION PAGE -->
+    <div class="question_page">
+      <h1 style="text-align: center">MicroPolling™</h1>
+      <hr style="clear: both" />
+      <div class="container_questions">
+        <h2 class="menu_column initial_hide">Menu</h2>
+        <div class="menu_options initial_hide">
+          <button class="btn" style="width: 200px">Questions</button>
+          <button class="btn" style="width: 200px">Your Answers</button>
+          <button class="btn" style="width: 200px">Results</button>
+          <button class="btn" style="width: 200px">Create MicroPoll™</button>
+        </div>
+        <h2 class="question_number"></h2>
+        <h2 class="recap_heading initial_hide">Your Summary</h2>
+        <div style="text-align: center; grid-column: 2; grid-row: 1">
+          <button class="btn btn_start">Start MicroPoll™!</button>
+        </div>
+        <div class="question"></div>
+        <form class="submit submit_grid">
+          <input class="input_box initial_hide" />
+          <input type="submit" class="btn submit_btn space initial_hide" />
+        </form>
+        <div class="answer_message answer_message_grid"></div>
+        <button class="btn next_question initial_hide next_grid">
+          Next MicroPoll™!
+        </button>
+        <button class="btn see_results initial_hide results_btn_grid">
+          See Results!
+        </button>
+        <div class="answers_recap recap_grid"></div>
+      </div>
+    </div>
+
+    <!-- RESULTS PAGE -->
+    <div class="results_page">
+      <h1 class="center results_title">MicroPolling™ Results</h1>
+      <hr style="clear: both" />
+      <div class="container_results"></div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
