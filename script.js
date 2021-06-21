@@ -7,32 +7,30 @@ const questions = [
     questionType: 'trivia',
     questionName: 'Capital of Canada',
     question: 'What is the capital of Canada?',
-    answers: ['ottawa'],
-    acceptableAnswers: ['ottowa', 'otawa', 'otowa'],
-    preAnswer: ['Correct 😁', 'Incorrect 😞'],
-    message: 'The capital of Canada is Ottawa 🍁',
-    spellingError: 'But you spelled it wrong, idiot.',
+    answers: ['ottawa', 'ottowa', 'otawa', 'otowa'],
+    correctAnswerMessage: 'Correct 😁 That IS the capital of Canada 🍁',
+    wrongAnswerMessage: 'Incorrect 😞 The capital of Canada is Ottawa 🍁',
   },
   {
     // Question 2
     questionType: 'open',
     questionName: 'Cheese',
     question: 'Name a cheese.',
-    message: 'Thank you for naming a cheese 🧀: ',
+    message: 'Thank you for naming a cheese 🧀',
   },
   {
     // Question 3
     questionType: 'open',
     questionName: 'Greatest Athlete',
     question: 'Who is the greatest athlete of all time?',
-    message: 'Thank you for naming an athlete 🏅: ',
+    message: 'Thank you for naming an athlete 🏅',
   },
   {
     // Question 4
     questionType: 'open',
     questionName: 'Serial Killer',
     question: 'Who is the most famous serial killer?',
-    message: 'Thank you for naming a serial killer!🔪: ',
+    message: 'Thank you for naming a serial killer!🔪 ',
   },
   {
     // Question 5
@@ -40,28 +38,32 @@ const questions = [
     questionName: 'Ariana Grande',
     question: `Without looking it up: What is Ariana Grande's race/ethnicity?`,
     answers: ['white', 'caucasian'],
-    preAnswer: [`That's right!`, `That's wrong ☹`],
-    message: 'Ariana Grande is white 👩‍🦳',
+    correctAnswerMessage: `That's right! Who knew?`,
+    wrongAnswerMessage: `That's wrong ☹ Ariana Grande is white 👩‍🦳`,
   },
   {
     // Question 6
     questionType: 'open',
     questionName: 'Fall from grace',
     question: `Which athlete had the greatest fall from grace?`,
-    message: `Thank you for submitting a disgraced athlete: `,
+    message: `Thank you for submitting a disgraced athlete`,
   },
   {
+    // Question 7
     questionType: 'open',
     questionName: 'Chinese Food',
     question: 'Name a Chinese food.',
-    message: `Thank you for naming a Chinese food: `,
+    message: `Thank you for naming a Chinese food`,
   },
 ];
 
-// HTML elements and variables
+/////////////////////////////////////////////////////////////////////////////
+// Variables and HTML selectors
 let questionCounter = 0;
+// main section
+const mainSections = document.querySelectorAll('.section');
 // question area
-const questionPage = document.querySelector('.question_page');
+const questionArea = document.querySelector('.question_area');
 const questionNumber = document.querySelector('.question_number');
 const questionText = document.querySelector('.question');
 const answerBox = document.querySelector('.input_box');
@@ -70,18 +72,47 @@ const answerMessage = document.querySelector('.answer_message');
 const startBtn = document.querySelector('.btn_start');
 const submitForm = document.querySelector('.submit');
 const submitBtn = document.querySelector('.submit_btn');
+const skipBtn = document.querySelector('.skip_btn');
 const nextQuestionBtn = document.querySelector('.next_question');
 //results page
 const resultsBtn = document.querySelector('.see_results');
 const resultsPage = document.querySelector('.results_page');
 const resultsContainer = document.querySelector('.container_results');
 // menu area
-const menuHeading = document.querySelector('.menu_column');
-const menuOptions = document.querySelector('.menu_options');
-// recap area
-const recapHeading = document.querySelector('.recap_heading');
-const recapAnswer = document.querySelector('.answers_recap');
+const menu = document.querySelector('.menu');
+// sumary area
+const summaryArea = document.querySelector('.summary');
+const summaryHeading = document.querySelector('.summary_heading');
+const answersSummary = document.querySelector('.answers_summary');
+// create poll
+const createPollBtn = document.querySelector('.create_poll_btn');
+const createPollArea = document.querySelector('.create_poll');
+const questionType = document.getElementById('q_type');
+const selectQuestionType = document.querySelector('.select_question_type');
+const triviaQuestionFields = document.querySelector('.trivia_question_fields');
+const openQuestionFields = document.querySelector('.open_question_fields');
+const submitPollBtn = document.querySelectorAll('.submit_poll_btn');
+const questionData = Array.from(
+  document.getElementsByClassName('question_data')
+);
+const triviaQuestionData = Array.from(
+  document.getElementsByClassName('trivia')
+);
+const openQuestionData = Array.from(document.getElementsByClassName('open'));
+// question list area
+const questionListArea = document.querySelector('.question_list');
+const questionListBtn = document.querySelector('.question_list_btn');
+const questionLinks = document.getElementById('question_list_links');
+const questionBtn = document.querySelector('.question_btn');
+
+/////////////////////////////////////////////////////////////////////////////////
 // Functions
+
+// hide element
+const hideElement = el => el.classList.add('hide');
+
+// show element
+const showElement = el => el.classList.remove('hide');
 
 // Submit Button
 const addSubmitListener = () =>
@@ -89,37 +120,46 @@ const addSubmitListener = () =>
 
 // display question number
 const displayQuestionNumber = number => {
-  if (questionCounter <= questions.length)
+  if (questionCounter <= questions.length - 1) {
     questionNumber.textContent = `Question ${number}`;
+  } else {
+    hideElement(nextQuestionBtn);
+  }
 };
 
 // evaluate trivia answer
 const triviaQuestion = answer => {
   // check for correct answer and display appropriate message
   if (questions[questionCounter].answers.includes(answer)) {
-    answerMessage.textContent = `${questions[questionCounter].preAnswer[0]} ${questions[questionCounter].message}`;
-  } else if (questions[questionCounter].acceptableAnswers?.includes(answer)) {
-    answerMessage.textContent = `${questions[questionCounter].preAnswer[0]} ${questions[questionCounter].message} ${questions[questionCounter].spellingError}`;
+    answerMessage.textContent = `${questions[questionCounter].correctAnswerMessage}`;
   } else {
-    answerMessage.textContent = `${questions[questionCounter].preAnswer[1]} ${questions[questionCounter].message}`;
+    answerMessage.textContent = `${questions[questionCounter].wrongAnswerMessage}`;
   }
-
-  // send answer to results page
-  // document.querySelector(`.question--${questionCounter}`).textContent = answer;
 };
 
-// acknowledge open answer
+// Capitalize answer text
+const answerToUpper = answer => {
+  const answerWords = [];
+  answer.split(' ').forEach(word => {
+    answerWords.push(word.charAt(0).toUpperCase() + word.substr(1));
+  });
+  return answerWords.join(' ');
+};
+
+// acknowledge open answer submission
 const openQuestion = answer => {
-  answerMessage.textContent = questions[questionCounter].message + answer;
-  // document.querySelector(`.question--${questionCounter}`).textContent = answer;
+  answerMessage.textContent = `${answerToUpper(answer)}: ${
+    questions[questionCounter].message
+  }`;
 };
 
-// display answer history
-const answersRecap = function () {
-  const shortAnswer = `${questions[questionCounter].questionName}: ${answerBox.value}`;
-  recapAnswer.insertAdjacentHTML(
+// display answers summary
+const displayAnswersSummary = function (answer) {
+  let currentQuestion = questions[questionCounter].questionName;
+  const shortAnswer = `${currentQuestion}: ${answerToUpper(answer)}`;
+  answersSummary.insertAdjacentHTML(
     'beforeend',
-    `<div style="margin-bottom: 10px" class="recap_answer">${shortAnswer}</div>`
+    `<div style="margin-bottom: 10px" class="summary_answer">${shortAnswer}</div>`
   );
 };
 
@@ -127,6 +167,14 @@ const answersRecap = function () {
 const removeSubmit = () => {
   submitForm.removeEventListener('submit', checkAnswer);
   submitForm.addEventListener('submit', e => e.preventDefault());
+};
+
+// create question list menu area
+const createQuestionList = function (question, index) {
+  questionLinks.insertAdjacentHTML(
+    'beforeend',
+    `<li><button type="button" class="question_btn btn generic_btn_size space" data-q="${index}">${question.questionName}</button></li>`
+  );
 };
 
 // insert results to results page
@@ -139,8 +187,7 @@ const insertResults = answer => {
 
 // display Results button after all Qs answered
 const displayResultsBtn = () => {
-  if (questionCounter + 1 === questions.length)
-    resultsBtn.style.display = 'block';
+  if (questionCounter + 1 === questions.length) showElement(resultsBtn);
 };
 
 // general check answer function
@@ -151,7 +198,6 @@ const checkAnswer = e => {
   // check for blank text
   if (answerBox.value === '') {
     answerMessage.textContent = `You didn't type anything. Please enter something.`;
-    nextQuestionBtn.style.display = 'none';
 
     // process answer according to question type
   } else {
@@ -169,15 +215,71 @@ const checkAnswer = e => {
     }
 
     // update UI
+    if (questionCounter <= questions.length - 2) {
+      showElement(nextQuestionBtn);
+      nextQuestionBtn.focus();
+    }
     removeSubmit();
-    answersRecap();
+    displayAnswersSummary(answerBox.value);
     displayResultsBtn();
-    submitBtn.style.display = 'none';
-    nextQuestionBtn.style.display = 'block';
+    hideElement(submitBtn);
     answerBox.value = '';
-    nextQuestionBtn.focus();
+    hideElement(skipBtn);
   }
 };
+
+// define new micropoll type
+const questionTypeSelection = e => {
+  const qName = document.querySelector(`#q_name-${questionType.value}`);
+  switch (e.target.value) {
+    case 'trivia':
+      // display trivia question fields
+      showElement(triviaQuestionFields);
+      hideElement(openQuestionFields);
+      qName.focus();
+      break;
+    case 'open':
+      // display open question fields
+      showElement(openQuestionFields);
+      hideElement(triviaQuestionFields);
+      qName.focus();
+      break;
+    case 'prompt':
+      // clear question fields if user returns to prompt
+      hideElement(openQuestionFields);
+      hideElement(triviaQuestionFields);
+      break;
+    default:
+      `something went wrong`;
+  }
+};
+questionType.onchange = questionTypeSelection;
+
+// submit new poll
+submitPollBtn.forEach(btn =>
+  btn.addEventListener('click', function (e) {
+    e.preventDefault();
+    const newQuestion = { questionType: questionType.value };
+    for (const key of questionData.filter(
+      data => data.value !== '' && data.name !== 'answers'
+    )) {
+      newQuestion[key.name] = key.value;
+    }
+    for (const key of questionData.filter(data => data.name === 'answers')) {
+      newQuestion[key.name] = key.value.split(',').map(el => el.trim());
+    }
+    // add new question to question array
+    questions.push(newQuestion);
+
+    // add new question to question list
+    createQuestionList(newQuestion, questions.indexOf(newQuestion));
+    // update UI
+    questionData.forEach(field => (field.value = ''));
+    showElement(questionArea);
+    showElement(summaryArea);
+    hideElement(createPollArea);
+  })
+);
 
 // BUTTONS
 // Start Button
@@ -192,25 +294,21 @@ startBtn.addEventListener('click', function (e) {
   questionText.textContent = questions[questionCounter].question;
 
   // display text box and submit button
-  answerBox.style.display = 'block';
-  submitBtn.style.display = 'block';
-  // resultsBtn.style.display = 'block';
+  questionArea.classList.remove('hide');
   answerBox.focus();
   // hide 'Start' button
-  startBtn.style.display = 'none';
+  hideElement(startBtn);
 
   // add submit listener
   addSubmitListener();
 
   // Display menu area
-  menuHeading.style.display = 'block';
-  menuOptions.style.display = 'block';
+  showElement(menu);
   // display recap area
-  recapHeading.style.display = 'block';
+  showElement(summaryArea);
 });
 
-// Next Question Button
-nextQuestionBtn.addEventListener('click', function () {
+const nextQuestion = () => {
   // increment counter
   questionCounter++;
 
@@ -218,25 +316,85 @@ nextQuestionBtn.addEventListener('click', function () {
   displayQuestionNumber(questionCounter + 1);
 
   // display next quesiton
+
   questionText.textContent = questions[questionCounter].question;
 
   // clear prior message
   answerMessage.textContent = '';
 
   // hide next question btn
-  nextQuestionBtn.style.display = 'none';
+  hideElement(nextQuestionBtn);
 
   // show submit btn
-  submitBtn.style.display = 'block';
+  showElement(submitBtn);
 
-  // clear answer box and add focu
+  // clear answer box and add focus
   answerBox.value = '';
   answerBox.focus();
   addSubmitListener();
+  showElement(skipBtn);
+};
+
+// Next Question Button
+nextQuestionBtn.addEventListener('click', nextQuestion);
+
+const skipFunction = function () {
+  if (questionCounter < questions.length) {
+    console.log(questionCounter);
+    displayAnswersSummary('Skipped');
+  }
+  if (questionCounter < questions.length - 1) {
+    nextQuestion();
+  } else {
+    hideElement(skipBtn);
+    showElement(resultsBtn);
+    hideElement(submitBtn);
+  }
+};
+
+skipBtn.addEventListener('click', skipFunction);
+
+const gotToQuestion = function (e) {
+  const clicked = e.target;
+  console.log(clicked);
+  if (clicked.classList.contains('question_btn')) {
+  }
+};
+
+// question list buttons
+questionListArea.addEventListener('click', gotToQuestion);
+
+////////////////////////////////////////////////
+// Menu Buttons
+
+// active menu button
+menu.addEventListener('click', function (e) {
+  // activate clicked button
+  const clicked = e.target;
+  if (clicked.classList.contains('menu_btn')) {
+    clicked.classList.add('btn-activate');
+  }
+
+  // deactivate any previously active buttons
+  const siblings = clicked.closest('nav').querySelectorAll('.menu_btn');
+  siblings.forEach(el => {
+    if (el !== clicked) {
+      el.classList.remove('btn-activate');
+      el.classList.add('btn-deactivate');
+    }
+  });
+
+  // hide all main sections
+  mainSections.forEach(s => hideElement(s));
+
+  // display current active section
+  document
+    .querySelector(`.menu_active--${clicked.dataset.menu}`)
+    .classList.remove('hide');
 });
 
-// see results btn
-resultsBtn.addEventListener('click', () => {
-  questionPage.style.display = 'none';
-  resultsPage.style.display = 'block';
-});
+const init = function () {
+  questions.forEach((q, i) => createQuestionList(q, i));
+};
+
+init();

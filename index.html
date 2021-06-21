@@ -5,48 +5,192 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="style.css" />
-    <title>Micropolling</title>
+    <title>micropolling</title>
+
+    <script defer src="script.js"></script>
   </head>
   <body>
-    <!-- QUESTION PAGE -->
-    <div class="question_page">
-      <h1 style="text-align: center">MicroPolling™</h1>
-      <hr style="clear: both" />
-      <div class="container_questions">
-        <h2 class="menu_column initial_hide">Menu</h2>
-        <div class="menu_options initial_hide">
-          <button class="btn" style="width: 200px">Questions</button>
-          <button class="btn" style="width: 200px">Your Answers</button>
-          <button class="btn" style="width: 200px">Results</button>
-          <button class="btn" style="width: 200px">Create MicroPoll™</button>
-        </div>
+    <!-- Page Title -->
+    <h1 class="title" title="Data no one asked for">microPolling™</h1>
+    <!-- Start Button -->
+    <div class="center_start_btn">
+      <button class="btn btn_start">Start microPoll™!</button>
+    </div>
+    
+    <!-- Main Page Grid Container -->
+    <main class="grid">
+      <!-- Menu -->
+      <div class="sticky">
+        <nav class="menu sticky hide">
+          <h2>Menu</h2>
+          <button class="menu btn menu_btn about_btn" data-menu="1">About</button>
+          <button class="menu btn menu_btn question_list_btn" data-menu="2">Questions</button>
+          <button class="menu btn menu_btn your_answers_btn" data-menu="3">Your Answers</button>
+          <button class="menu btn menu_btn goto_results_btn" data-menu="4">Results</button>
+          <button class="menu btn menu_btn create_poll_btn" data-menu="5">
+            Create microPoll™
+          </button>
+        </nav>
+      </div>
+
+      <!-- Questions -->
+      <section class="section question_area hide">
         <h2 class="question_number"></h2>
-        <h2 class="recap_heading initial_hide">Your Summary</h2>
-        <div style="text-align: center; grid-column: 2; grid-row: 1">
-          <button class="btn btn_start">Start MicroPoll™!</button>
-        </div>
         <div class="question"></div>
-        <form class="submit submit_grid">
-          <input class="input_box initial_hide" />
-          <input type="submit" class="btn submit_btn space initial_hide" />
+        <form class="submit">
+          <input class="input_box space" /> <br />
+          <input type="submit" class="btn generic_btn_size submit_btn space" />
         </form>
-        <div class="answer_message answer_message_grid"></div>
-        <button class="btn next_question initial_hide next_grid">
-          Next MicroPoll™!
+        <div class="answer_message space"></div>
+        <button class="btn generic_btn_size skip_btn space">Skip</button>
+        <button class="btn generic_btn_size next_question space hide">
+          Next microPoll™!
         </button>
-        <button class="btn see_results initial_hide results_btn_grid">
+        <br />
+        <button class="btn generic_btn_size see_results hide">
           See Results!
         </button>
-        <div class="answers_recap recap_grid"></div>
-      </div>
-    </div>
+      </section>
 
-    <!-- RESULTS PAGE -->
-    <div class="results_page">
-      <h1 class="center results_title">MicroPolling™ Results</h1>
-      <hr style="clear: both" />
-      <div class="container_results"></div>
-    </div>
-    <script src="script.js"></script>
+      <!-- Summary -->
+      <section class="section summary hide">
+        <h2>Your Summary</h2>
+        <div class="answers_summary summary_grid"></div>
+      </section>
+      
+      <!-- Menu Buttons -->
+
+      <!-- About -->
+      <section class="section about menu_active--1 hide">
+        <h2 class="section_heading">About microPolling™</h2>
+        <p>microPolling™ is about gathering informal survey data for low-stakes questions. What percentage of people know what the capital of Canada is? That's a job for microPolling™! microPolling™ provides no definitive answers, only fodder for future heated discussions about pointless minutiae.</p>
+        <button class="btn generic_btn_size">Start microPolling™ Now!</button>
+      </section>
+
+      <!-- Question List -->
+      <section class="section question_list menu_active--2 hide">
+        <h2 class="section_heading">Question List</h2>
+        <ol style="list-style: decimal" id="question_list_links">
+          
+        </ol>
+      </section>
+
+      <!-- Your Answers -->
+      <section class="section your_answers menu_active--3 hide">
+        <h2 class="section_heading">Your Answers</h2>
+      </section>
+
+      <!-- Results Page -->
+      <section class="section results menu_active--4 hide">
+        <h2 class="section_heading">microPolling™ Results</h2>
+        <div class="container_results"></div>
+      </section>
+
+      <!-- Create Poll -->
+      <section class="section create_poll menu_active--5 hide">
+        <h2 class="section_heading">Create New microPoll™!</h2>
+        <form class="select_question_type">
+          <label for="question_type">Question Type:</label><br />
+          <select
+            class="input_box space"
+            id="q_type"
+            name="question_type"
+            placeholder
+          >
+            <option value="prompt" disable selected>
+              Select a question type to begin
+            </option>
+            <option value="trivia">Trivia Question</option>
+            <option value="open">Open Question</option>
+          </select>
+        </form>
+
+        <!-- Trivia Question -->
+        <form class="trivia_question_fields hide">
+          <label for="questionName">Question Name:</label><br />
+          <input
+            type="text"
+            class="question_data trivia input_box create_input_box space"
+            id="q_name-trivia"
+            name="questionName"
+            placeholder="Give your question a short name"
+          /><br />
+          <label for="question">Question Text:</label><br />
+          <textarea
+            rows="4"
+            cols="50"
+            class="question_data trivia input_box space"
+            id="q_text-trivia"
+            name="question"
+            placeholder="Write your quesiton here. Resize box for more space"
+          ></textarea
+          ><br />
+          <label for="answers">Answer(s) (comma separated):</label><br />
+          <input
+            type="text"
+            class="question_data trivia input_box create_input_box space"
+            id="answer-trivia"
+            name="answers"
+            placeholder="List all acceptable answers separated by commas"
+          /><br />
+          <label for="correctAnswerMessage">Correct answer message:</label
+          ><br />
+          <textarea
+            rows="2"
+            cols="50"
+            class="question_data trivia input_box space"
+            id="correct_answer-trivia"
+            name="correctAnswerMessage"
+            placeholder="Message to display for correct answers"
+          ></textarea
+          ><br />
+          <label for="wrongAnswerMessage">Wrong answer message:</label><br />
+          <textarea
+            rows="2"
+            cols="50"
+            class="question_data trivia input_box space"
+            id="wrong_answer-trivia"
+            name="wrongAnswerMessage"
+            placeholder="Message to display for wrong answers"
+          ></textarea
+          ><br />
+          <input
+            type="button"
+            class="btn generic_btn_size trivia_btn submit_poll_btn space"
+            id="submit-trivia"
+            value="Create microPoll™!"
+          />
+        </form>
+
+        <!-- Open Question Fields -->
+        <form class="open_question_fields hide">
+          <label for="questionName">Question Name:</label><br />
+          <input
+            type="text"
+            class="question_data open input_box create_input_box space"
+            id="q_name-open"
+            name="questionName"
+            placeholder="Give your question a short name"
+          /><br />
+          <label for="question">Question Text:</label><br />
+          <textarea
+            rows="4"
+            cols="50"
+            class="question_data open input_box space"
+            id="q_text-open"
+            name="question"
+            placeholder="Write your question here. Resize box for more space"
+          ></textarea
+          ><br/>
+          <label for="message">Answer submission message:</label><br/>
+          <textarea rows="2" cols="50" class="question_data open input_box space" id="message-open" name="message" placeholder="Message to display after answer is submitted"></textarea><br/>
+          <input type="button" class="btn generic_btn_size submit_poll_btn space" id="submit-open" value="Create microPoll™!">
+      </section>
+      <div class="footer" title="Copyright makes the world worse">
+        Copyright
+      </div>
+
+    </main>
+
   </body>
 </html>
