@@ -74,15 +74,16 @@ const submitForm = document.querySelector('.submit');
 const submitBtn = document.querySelector('.submit_btn');
 const skipBtn = document.querySelector('.skip_btn');
 const nextQuestionBtn = document.querySelector('.next_question');
+const startPollingBtn = document.querySelector('#start_polling');
+
 //results page
 const resultsBtn = document.querySelector('.see_results');
 const resultsPage = document.querySelector('.results_page');
 const resultsContainer = document.querySelector('.container_results');
 // menu area
 const menu = document.querySelector('.menu');
+const menuBtns = document.querySelectorAll('.menu_btn');
 // sumary area
-const summaryArea = document.querySelector('.summary');
-const summaryHeading = document.querySelector('.summary_heading');
 const answersSummary = document.querySelector('.answers_summary');
 // create poll
 const createPollBtn = document.querySelector('.create_poll_btn');
@@ -103,7 +104,10 @@ const openQuestionData = Array.from(document.getElementsByClassName('open'));
 const questionListArea = document.querySelector('.question_list');
 const questionListBtn = document.querySelector('.question_list_btn');
 const questionLinks = document.getElementById('question_list_links');
-const questionBtn = document.querySelector('.question_btn');
+const questionBtn = document.querySelector('.question_list_btn');
+
+// about section
+const about = document.querySelector('.about');
 
 /////////////////////////////////////////////////////////////////////////////////
 // Functions
@@ -114,13 +118,16 @@ const hideElement = el => el.classList.add('hide');
 // show element
 const showElement = el => el.classList.remove('hide');
 
+// hide main Sections
+const hideSections = () => mainSections.forEach(s => hideElement(s));
+
 // Submit Button
 const addSubmitListener = () =>
   submitForm.addEventListener('submit', checkAnswer);
 
 // display question number
 const displayQuestionNumber = number => {
-  if (questionCounter <= questions.length - 1) {
+  if (number <= questions.length - 1) {
     questionNumber.textContent = `Question ${number}`;
   } else {
     hideElement(nextQuestionBtn);
@@ -154,19 +161,30 @@ const openQuestion = answer => {
 };
 
 // display answers summary
-const displayAnswersSummary = function (answer) {
-  let currentQuestion = questions[questionCounter].questionName;
-  const shortAnswer = `${currentQuestion}: ${answerToUpper(answer)}`;
-  answersSummary.insertAdjacentHTML(
-    'beforeend',
-    `<div style="margin-bottom: 10px" class="summary_answer">${shortAnswer}</div>`
-  );
-};
+// const displayAnswersSummary = function (answer) {
+//   let currentQuestion = questions[questionCounter].questionName;
+//   const shortAnswer = `${currentQuestion}: ${answerToUpper(answer)}`;
+//   answersSummary.insertAdjacentHTML(
+//     'beforeend',
+//     `<div style="margin-bottom: 10px" class="summary_answer">${shortAnswer}</div>`
+//   );
+// };
 
 // remove submit listener
 const removeSubmit = () => {
   submitForm.removeEventListener('submit', checkAnswer);
   submitForm.addEventListener('submit', e => e.preventDefault());
+};
+
+const activateMenuBtn = function (type) {
+  menuBtns.forEach(btn => {
+    if (btn.classList.contains(type)) {
+      btn.classList.add('btn-activate');
+    } else {
+      btn.classList.remove('btn-activate');
+      btn.classList.add('btn-deactivate');
+    }
+  });
 };
 
 // create question list menu area
@@ -186,8 +204,8 @@ const insertResults = answer => {
 };
 
 // display Results button after all Qs answered
-const displayResultsBtn = () => {
-  if (questionCounter + 1 === questions.length) showElement(resultsBtn);
+const displayResultsBtn = question => {
+  if (+question + 1 === questions.length) showElement(resultsBtn);
 };
 
 // general check answer function
@@ -213,18 +231,17 @@ const checkAnswer = e => {
       default:
         console.log(`something went wrong`);
     }
-
+    console.log(questionCounter);
     // update UI
     if (questionCounter <= questions.length - 2) {
       showElement(nextQuestionBtn);
       nextQuestionBtn.focus();
     }
-    removeSubmit();
-    displayAnswersSummary(answerBox.value);
-    displayResultsBtn();
+    displayResultsBtn(questionCounter);
     hideElement(submitBtn);
     answerBox.value = '';
     hideElement(skipBtn);
+    removeSubmit();
   }
 };
 
@@ -255,6 +272,29 @@ const questionTypeSelection = e => {
 };
 questionType.onchange = questionTypeSelection;
 
+const deactivateSiblings = function (target, sibs, act, deact) {
+  sibs.forEach(el => {
+    if (el !== target) {
+      el.classList.remove(act);
+      el.classList.add(deact);
+    }
+  });
+};
+
+const activateQuestionBtn = function (number) {
+  const questionBtns = document.querySelectorAll('.question_btn');
+  const activeQuestionBtn = document.querySelector(
+    `.question_btn[data-q="${number}"]`
+  );
+  activeQuestionBtn.classList.add('q_btn-activate');
+  deactivateSiblings(
+    activeQuestionBtn,
+    questionBtns,
+    'q_btn-activate',
+    'q_btn-deactivate'
+  );
+};
+
 // submit new poll
 submitPollBtn.forEach(btn =>
   btn.addEventListener('click', function (e) {
@@ -276,8 +316,8 @@ submitPollBtn.forEach(btn =>
     // update UI
     questionData.forEach(field => (field.value = ''));
     showElement(questionArea);
-    showElement(summaryArea);
     hideElement(createPollArea);
+    activateMenuBtn('question_list_btn');
   })
 );
 
@@ -287,15 +327,12 @@ startBtn.addEventListener('click', function (e) {
   // prevent form reload
   e.preventDefault();
 
-  // display question number
-  displayQuestionNumber(questionCounter + 1);
-
-  // display question
-  questionText.textContent = questions[questionCounter].question;
+  // show About menu item as active on start
+  activateMenuBtn('about_btn');
 
   // display text box and submit button
-  questionArea.classList.remove('hide');
-  answerBox.focus();
+  showElement(about);
+
   // hide 'Start' button
   hideElement(startBtn);
 
@@ -304,9 +341,19 @@ startBtn.addEventListener('click', function (e) {
 
   // Display menu area
   showElement(menu);
-  // display recap area
-  showElement(summaryArea);
+  // display question list area
+  showElement(questionListArea);
 });
+
+const startPolling = function () {
+  questionArea.classList.remove('hide');
+  hideElement(about);
+  activateMenuBtn('question_list_btn');
+  activateQuestionBtn(questionCounter);
+  answerBox.focus();
+};
+
+startPollingBtn.addEventListener('click', startPolling);
 
 const nextQuestion = () => {
   // increment counter
@@ -333,16 +380,13 @@ const nextQuestion = () => {
   answerBox.focus();
   addSubmitListener();
   showElement(skipBtn);
+  activateQuestionBtn(questionCounter);
 };
 
 // Next Question Button
 nextQuestionBtn.addEventListener('click', nextQuestion);
 
 const skipFunction = function () {
-  if (questionCounter < questions.length) {
-    console.log(questionCounter);
-    displayAnswersSummary('Skipped');
-  }
   if (questionCounter < questions.length - 1) {
     nextQuestion();
   } else {
@@ -354,11 +398,29 @@ const skipFunction = function () {
 
 skipBtn.addEventListener('click', skipFunction);
 
+const displayQuestion = function (qNumber) {
+  showElement(questionArea);
+  displayQuestionNumber(+qNumber + 1);
+  questionText.textContent = questions[qNumber].question;
+  answerBox.focus();
+  questionCounter = +qNumber;
+  showElement(submitBtn);
+  showElement(skipBtn);
+  hideElement(nextQuestionBtn);
+  answerMessage.textContent = '';
+};
+
 const gotToQuestion = function (e) {
   const clicked = e.target;
-  console.log(clicked);
   if (clicked.classList.contains('question_btn')) {
+    hideSections();
+    displayQuestion(clicked.dataset.q);
+    clicked.classList.add('q_btn-activate');
   }
+  const siblings = clicked.closest('section').querySelectorAll('.question_btn');
+  deactivateSiblings(clicked, siblings, 'q_btn-activate', 'q_btn-deactivate');
+
+  activateMenuBtn('question_list_btn');
 };
 
 // question list buttons
@@ -377,24 +439,28 @@ menu.addEventListener('click', function (e) {
 
   // deactivate any previously active buttons
   const siblings = clicked.closest('nav').querySelectorAll('.menu_btn');
-  siblings.forEach(el => {
-    if (el !== clicked) {
-      el.classList.remove('btn-activate');
-      el.classList.add('btn-deactivate');
-    }
-  });
+  deactivateSiblings(clicked, siblings, 'btn-activate', 'btn-deactivate');
 
   // hide all main sections
-  mainSections.forEach(s => hideElement(s));
+  hideSections();
 
   // display current active section
   document
     .querySelector(`.menu_active--${clicked.dataset.menu}`)
     .classList.remove('hide');
+
+  // focus on answer box
+  if (+clicked.dataset.menu === 2) {
+    answerBox.focus();
+    activateQuestionBtn(questionCounter);
+  }
 });
 
 const init = function () {
   questions.forEach((q, i) => createQuestionList(q, i));
+  displayQuestion(questionCounter);
+  displayQuestionNumber(questionCounter + 1);
+  hideSections();
 };
 
 init();

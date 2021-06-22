@@ -14,7 +14,7 @@
     <h1 class="title" title="Data no one asked for">microPolling™</h1>
     <!-- Start Button -->
     <div class="center_start_btn">
-      <button class="btn btn_start">Start microPoll™!</button>
+      <button class="btn btn_start">Enter microPolling™!</button>
     </div>
     
     <!-- Main Page Grid Container -->
@@ -32,9 +32,26 @@
           </button>
         </nav>
       </div>
-
+      
+      <!-- Question List -->
+      <section class="question_list hide">
+        <h2 class="section_heading">Question List</h2>
+        <ol style="list-style: decimal" id="question_list_links">
+          
+        </ol>
+      </section>
+      
+      <!-- Menu Buttons -->
+      
+      <!-- About -->
+      <section class="section sticky about menu_active--1 hide">
+        <h2 class="section_heading">About microPolling™</h2>
+        <p>microPolling™ is about gathering informal survey data for low-stakes questions. What percentage of people know what the capital of Canada is? That's a job for microPolling™! microPolling™ provides no definitive answers, only fodder for future heated discussions about pointless minutiae.</p>
+        <button class="btn generic_btn_size" id="start_polling">Start microPolling™ Now!</button>
+      </section>
+      
       <!-- Questions -->
-      <section class="section question_area hide">
+      <section class="section sticky question_area menu_active--2 hide">
         <h2 class="question_number"></h2>
         <div class="question"></div>
         <form class="submit">
@@ -52,42 +69,19 @@
         </button>
       </section>
 
-      <!-- Summary -->
-      <section class="section summary hide">
-        <h2>Your Summary</h2>
-        <div class="answers_summary summary_grid"></div>
-      </section>
-      
-      <!-- Menu Buttons -->
-
-      <!-- About -->
-      <section class="section about menu_active--1 hide">
-        <h2 class="section_heading">About microPolling™</h2>
-        <p>microPolling™ is about gathering informal survey data for low-stakes questions. What percentage of people know what the capital of Canada is? That's a job for microPolling™! microPolling™ provides no definitive answers, only fodder for future heated discussions about pointless minutiae.</p>
-        <button class="btn generic_btn_size">Start microPolling™ Now!</button>
-      </section>
-
-      <!-- Question List -->
-      <section class="section question_list menu_active--2 hide">
-        <h2 class="section_heading">Question List</h2>
-        <ol style="list-style: decimal" id="question_list_links">
-          
-        </ol>
-      </section>
-
       <!-- Your Answers -->
-      <section class="section your_answers menu_active--3 hide">
+      <section class="section sticky your_answers menu_active--3 hide">
         <h2 class="section_heading">Your Answers</h2>
       </section>
 
       <!-- Results Page -->
-      <section class="section results menu_active--4 hide">
+      <section class="section sticky results menu_active--4 hide">
         <h2 class="section_heading">microPolling™ Results</h2>
         <div class="container_results"></div>
       </section>
 
       <!-- Create Poll -->
-      <section class="section create_poll menu_active--5 hide">
+      <section class="section sticky create_poll menu_active--5 hide">
         <h2 class="section_heading">Create New microPoll™!</h2>
         <form class="select_question_type">
           <label for="question_type">Question Type:</label><br />
