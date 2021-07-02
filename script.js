@@ -127,7 +127,7 @@ const addSubmitListener = () =>
 
 // display question number
 const displayQuestionNumber = number => {
-  if (number <= questions.length - 1) {
+  if (number <= questions.length) {
     questionNumber.textContent = `Question ${number}`;
   } else {
     hideElement(nextQuestionBtn);
