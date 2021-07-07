@@ -299,7 +299,7 @@ const activateQuestionBtn = function (number) {
 };
 
 // submit new poll
-submitPollBtn.forEach(btn => 
+submitPollBtn.forEach(btn => {
   btn.addEventListener('click', function (e) {
     e.preventDefault();
     const newQuestion = { questionType: questionType.value };
@@ -322,7 +322,7 @@ submitPollBtn.forEach(btn =>
     hideElement(createPollArea);
     activateMenuBtn('question_list_btn');
   });
-);
+});
 
 // BUTTONS
 // Start Button
