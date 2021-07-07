@@ -298,7 +298,9 @@ const activateQuestionBtn = function (number) {
 // submit new poll
 submitPollBtn.forEach(btn =>
   btn.addEventListener('click', function (e) {
+    console.log(submitPollBtn);
     e.preventDefault();
+    console.log('test');
     const newQuestion = { questionType: questionType.value };
     for (const key of questionData.filter(
       data => data.value !== '' && data.name !== 'answers'
@@ -421,6 +423,7 @@ const gotToQuestion = function (e) {
   deactivateSiblings(clicked, siblings, 'q_btn-activate', 'q_btn-deactivate');
 
   activateMenuBtn('question_list_btn');
+  addSubmitListener();
 };
 
 // question list buttons
