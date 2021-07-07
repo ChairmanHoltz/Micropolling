@@ -231,7 +231,6 @@ const checkAnswer = e => {
       default:
         console.log(`something went wrong`);
     }
-    console.log(questionCounter);
     // update UI
     if (questionCounter <= questions.length - 2) {
       showElement(nextQuestionBtn);
@@ -260,6 +259,10 @@ const questionTypeSelection = e => {
       showElement(openQuestionFields);
       hideElement(triviaQuestionFields);
       qName.focus();
+      const qNameOpen = document.getElementById('q_name-open');
+      qNameOpen.onkeydown = function (e) {
+        if (e.key === 'Enter') e.preventDefault();
+      };
       break;
     case 'prompt':
       // clear question fields if user returns to prompt
@@ -267,7 +270,7 @@ const questionTypeSelection = e => {
       hideElement(triviaQuestionFields);
       break;
     default:
-      `something went wrong`;
+      console.log(`something went wrong`);
   }
 };
 questionType.onchange = questionTypeSelection;
@@ -296,11 +299,9 @@ const activateQuestionBtn = function (number) {
 };
 
 // submit new poll
-submitPollBtn.forEach(btn =>
+submitPollBtn.forEach(btn => 
   btn.addEventListener('click', function (e) {
-    console.log(submitPollBtn);
     e.preventDefault();
-    console.log('test');
     const newQuestion = { questionType: questionType.value };
     for (const key of questionData.filter(
       data => data.value !== '' && data.name !== 'answers'
@@ -320,7 +321,7 @@ submitPollBtn.forEach(btn =>
     showElement(questionArea);
     hideElement(createPollArea);
     activateMenuBtn('question_list_btn');
-  })
+  });
 );
 
 // BUTTONS
