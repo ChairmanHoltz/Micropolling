@@ -104,10 +104,19 @@ const openQuestionData = Array.from(document.getElementsByClassName('open'));
 const questionListArea = document.querySelector('.question_list');
 const questionListBtn = document.querySelector('.question_list_btn');
 const questionLinks = document.getElementById('question_list_links');
-const questionBtn = document.querySelector('.question_list_btn');
+let questionBtns;
+
+// const questionBtn = document.querySelector('.question_list_btn');
 
 // about section
 const about = document.querySelector('.about');
+
+////////////////////////////////////////////////////////////////////////////////
+// CLasses
+
+class App {
+  constructor() {}
+}
 
 /////////////////////////////////////////////////////////////////////////////////
 // Functions
@@ -193,6 +202,7 @@ const createQuestionList = function (question, index) {
     'beforeend',
     `<li><button type="button" class="question_btn btn generic_btn_size space" data-q="${index}">${question.questionName}</button></li>`
   );
+  questionBtns = document.querySelectorAll('.question_btn');
 };
 
 // insert results to results page
@@ -285,7 +295,6 @@ const deactivateSiblings = function (target, sibs, act, deact) {
 };
 
 const activateQuestionBtn = function (number) {
-  const questionBtns = document.querySelectorAll('.question_btn');
   const activeQuestionBtn = document.querySelector(
     `.question_btn[data-q="${number}"]`
   );
@@ -444,6 +453,14 @@ menu.addEventListener('click', function (e) {
   // deactivate any previously active buttons
   const siblings = clicked.closest('nav').querySelectorAll('.menu_btn');
   deactivateSiblings(clicked, siblings, 'btn-activate', 'btn-deactivate');
+
+  // deactivate active question list button
+  if (!clicked.classList.contains('question_list_btn')) {
+    questionBtns.forEach(btn => {
+      btn.classList.remove('q_btn-activate');
+      btn.classList.add('q_btn-deactivate');
+    });
+  }
 
   // hide all main sections
   hideSections();
