@@ -106,17 +106,8 @@ const questionListBtn = document.querySelector('.question_list_btn');
 const questionLinks = document.getElementById('question_list_links');
 let questionBtns;
 
-// const questionBtn = document.querySelector('.question_list_btn');
-
 // about section
 const about = document.querySelector('.about');
-
-////////////////////////////////////////////////////////////////////////////////
-// CLasses
-
-class App {
-  constructor() {}
-}
 
 /////////////////////////////////////////////////////////////////////////////////
 // Functions
