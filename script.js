@@ -109,6 +109,71 @@ let questionBtns;
 // about section
 const about = document.querySelector('.about');
 
+///////////////////////////////////////////////////////////////////////
+// Classes
+
+class App {
+  constructor() {}
+
+  _hideElement(el) {
+    el.classList.add('hide');
+  }
+
+  _showElement(el) {
+    el.classList.remove('hide');
+  }
+
+  _hideSections() {
+    mainSections.forEach(s => hideElement(s));
+  }
+}
+
+class Question {
+  constructor() {}
+  _checkAnswer(e) {
+    // prevent form reload
+    e.preventDefault();
+
+    // check for blank text
+    if (answerBox.value === '') {
+      answerMessage.textContent = `You didn't type anything. Please enter something.`;
+
+      // process answer according to question type
+    } else {
+      switch (questions[questionCounter].questionType) {
+        case 'trivia':
+          triviaQuestion(answerBox.value.toLowerCase().trim());
+          insertResults(answerBox.value);
+          break;
+        case 'open':
+          openQuestion(answerBox.value);
+          insertResults(answerBox.value);
+          break;
+        default:
+          console.log(`something went wrong`);
+      }
+      // update UI
+      if (questionCounter <= questions.length - 2) {
+        showElement(nextQuestionBtn);
+        nextQuestionBtn.focus();
+      }
+      displayResultsBtn(questionCounter);
+      hideElement(submitBtn);
+      answerBox.value = '';
+      hideElement(skipBtn);
+      removeSubmit();
+    }
+  }
+}
+
+class TriviaQuestion extends Question {
+  constructor() {}
+}
+
+class OpenQuestion extends Question {
+  constructor() {}
+}
+
 /////////////////////////////////////////////////////////////////////////////////
 // Functions
 
