@@ -106,11 +106,28 @@ const questionListBtn = document.querySelector('.question_list_btn');
 const questionLinks = document.getElementById('question_list_links');
 let questionBtns;
 
+const url =
+  'https://script.google.com/macros/s/AKfycbw1OSnxqi3edoAKGR-wtmoztEHkD22BHxBLuFYhI73P410otZawlrMIgYT2yCXGWQLg/exec';
+
 // about section
 const about = document.querySelector('.about');
 
 /////////////////////////////////////////////////////////////////////////////////
 // Functions
+
+// GET request to Google Sheets
+const getGS = function () {
+  fetch(url)
+    .then(d => d.json())
+    .then(d => {
+      console.log(d);
+      // questions = d;
+      // console.log(questions);
+      // displayQuestions(d);
+      createQuestionList(d);
+    });
+};
+getGS();
 
 // hide element
 const hideElement = el => el.classList.add('hide');
@@ -188,11 +205,14 @@ const activateMenuBtn = function (type) {
 };
 
 // create question list menu area
-const createQuestionList = function (question, index) {
-  questionLinks.insertAdjacentHTML(
-    'beforeend',
-    `<li><button type="button" class="question_btn btn generic_btn_size space" data-q="${index}">${question.questionName}</button></li>`
-  );
+const createQuestionList = function (data) {
+  console.log(data);
+  data.forEach((question, i) => {
+    questionLinks.insertAdjacentHTML(
+      'beforeend',
+      `<li><button type="button" class="question_btn btn generic_btn_size space" data-q="${i}">${question.questionName}</button></li>`
+    );
+  });
   questionBtns = document.querySelectorAll('.question_btn');
 };
 
@@ -469,7 +489,7 @@ menu.addEventListener('click', function (e) {
 });
 
 const init = function () {
-  questions.forEach((q, i) => createQuestionList(q, i));
+  // questions.forEach((q, i) => createQuestionList(q, i));
   displayQuestion(questionCounter);
   displayQuestionNumber(questionCounter + 1);
   hideSections();
