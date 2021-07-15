@@ -137,6 +137,7 @@ body {
 .generic_btn_size {
   height: 40px;
   width: auto;
+  /* min-width: 100%; */
 }
 
 .btn:hover {
@@ -189,6 +190,10 @@ body {
 
 .next_question {
   width: 150px;
+}
+
+.question_btn {
+  min-width: 70%;
 }
 
 /* TEXT DISPLAY */

@@ -118,12 +118,19 @@ const url =
 
 // GET request to Google Sheets
 const getGS = function () {
+  let fixedData = [];
   fetch(url)
-    .then(d => d.json())
-    .then(d => {
-      console.log(d);
-      questions = d;
-      createQuestionList(d);
+    .then(data => data.json())
+    .then(data => {
+      console.log(data);
+      data.forEach((question, i) => {
+        if (question.answers) {
+          question.answers = question.answers.split(',');
+        }
+        fixedData.push(question);
+      });
+      questions = fixedData;
+      createQuestionList(questions);
     });
 };
 
@@ -174,16 +181,6 @@ const openQuestion = answer => {
     questions[questionCounter].message
   }`;
 };
-
-// display answers summary
-// const displayAnswersSummary = function (answer) {
-//   let currentQuestion = questions[questionCounter].questionName;
-//   const shortAnswer = `${currentQuestion}: ${answerToUpper(answer)}`;
-//   answersSummary.insertAdjacentHTML(
-//     'beforeend',
-//     `<div style="margin-bottom: 10px" class="summary_answer">${shortAnswer}</div>`
-//   );
-// };
 
 // remove submit listener
 const removeSubmit = () => {
