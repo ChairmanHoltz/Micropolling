@@ -1,5 +1,53 @@
 'use strict';
 
+//////////////////////////////////////////////////////////////////////
+// Google Sheets Database
+
+const url =
+  'https://script.google.com/macros/s/AKfycbw1OSnxqi3edoAKGR-wtmoztEHkD22BHxBLuFYhI73P410otZawlrMIgYT2yCXGWQLg/exec';
+
+const obj = {
+  questionType: 'trivia',
+  questionName: 'Capital of Canada',
+  question: 'What is the capital of Canada?',
+  answers: ['ottawa', 'ottowa', 'otawa', 'otowa'].toString(),
+  correctAnswerMessage: 'Correct 😁 That IS the capital of Canada 🍁',
+  wrongAnswerMessage: 'Incorrect 😞 The capital of Canada is Ottawa 🍁',
+};
+
+const questionVariables = function (data) {
+  const question = data.open[0].question;
+  console.log(question);
+};
+
+const getGS = function () {
+  fetch(url)
+    .then(d => d.json())
+    .then(d => {
+      console.log(d);
+      questionVariables(d);
+      // document.getElementById('app').textContent = d.open[0].question;
+      document.getElementById('app').textContent = d.open[0].question;
+    });
+};
+
+function addGS() {
+  fetch(url, {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'no-cors',
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    body: JSON.stringify(obj), // body data type must match "Content-Type" header
+  });
+}
+
+document.getElementById('btn-get').addEventListener('click', getGS);
+
+// document.getElementById('btn2').addEventListener('click', addGS);
+
 // Question Objects
 const questions = [
   {
