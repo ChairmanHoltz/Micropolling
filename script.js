@@ -1,61 +1,62 @@
 'use strict';
 
 // Question Objects
-const questions = [
-  {
-    // Question 1
-    questionType: 'trivia',
-    questionName: 'Capital of Canada',
-    question: 'What is the capital of Canada?',
-    answers: ['ottawa', 'ottowa', 'otawa', 'otowa'],
-    correctAnswerMessage: 'Correct 😁 That IS the capital of Canada 🍁',
-    wrongAnswerMessage: 'Incorrect 😞 The capital of Canada is Ottawa 🍁',
-  },
-  {
-    // Question 2
-    questionType: 'open',
-    questionName: 'Cheese',
-    question: 'Name a cheese.',
-    message: 'Thank you for naming a cheese 🧀',
-  },
-  {
-    // Question 3
-    questionType: 'open',
-    questionName: 'Greatest Athlete',
-    question: 'Who is the greatest athlete of all time?',
-    message: 'Thank you for naming an athlete 🏅',
-  },
-  {
-    // Question 4
-    questionType: 'open',
-    questionName: 'Serial Killer',
-    question: 'Who is the most famous serial killer?',
-    message: 'Thank you for naming a serial killer!🔪 ',
-  },
-  {
-    // Question 5
-    questionType: 'trivia',
-    questionName: 'Ariana Grande',
-    question: `Without looking it up: What is Ariana Grande's race/ethnicity?`,
-    answers: ['white', 'caucasian'],
-    correctAnswerMessage: `That's right! Who knew?`,
-    wrongAnswerMessage: `That's wrong ☹ Ariana Grande is white 👩‍🦳`,
-  },
-  {
-    // Question 6
-    questionType: 'open',
-    questionName: 'Fall from grace',
-    question: `Which athlete had the greatest fall from grace?`,
-    message: `Thank you for submitting a disgraced athlete`,
-  },
-  {
-    // Question 7
-    questionType: 'open',
-    questionName: 'Chinese Food',
-    question: 'Name a Chinese food.',
-    message: `Thank you for naming a Chinese food`,
-  },
-];
+let questions = [];
+// const questions = [
+//   {
+//     // Question 1
+//     questionType: 'trivia',
+//     questionName: 'Capital of Canada',
+//     question: 'What is the capital of Canada?',
+//     answers: ['ottawa', 'ottowa', 'otawa', 'otowa'],
+//     correctAnswerMessage: 'Correct 😁 That IS the capital of Canada 🍁',
+//     wrongAnswerMessage: 'Incorrect 😞 The capital of Canada is Ottawa 🍁',
+//   },
+//   {
+//     // Question 2
+//     questionType: 'open',
+//     questionName: 'Cheese',
+//     question: 'Name a cheese.',
+//     message: 'Thank you for naming a cheese 🧀',
+//   },
+//   {
+//     // Question 3
+//     questionType: 'open',
+//     questionName: 'Greatest Athlete',
+//     question: 'Who is the greatest athlete of all time?',
+//     message: 'Thank you for naming an athlete 🏅',
+//   },
+//   {
+//     // Question 4
+//     questionType: 'open',
+//     questionName: 'Serial Killer',
+//     question: 'Who is the most famous serial killer?',
+//     message: 'Thank you for naming a serial killer!🔪 ',
+//   },
+//   {
+//     // Question 5
+//     questionType: 'trivia',
+//     questionName: 'Ariana Grande',
+//     question: `Without looking it up: What is Ariana Grande's race/ethnicity?`,
+//     answers: ['white', 'caucasian'],
+//     correctAnswerMessage: `That's right! Who knew?`,
+//     wrongAnswerMessage: `That's wrong ☹ Ariana Grande is white 👩‍🦳`,
+//   },
+//   {
+//     // Question 6
+//     questionType: 'open',
+//     questionName: 'Fall from grace',
+//     question: `Which athlete had the greatest fall from grace?`,
+//     message: `Thank you for submitting a disgraced athlete`,
+//   },
+//   {
+//     // Question 7
+//     questionType: 'open',
+//     questionName: 'Chinese Food',
+//     question: 'Name a Chinese food.',
+//     message: `Thank you for naming a Chinese food`,
+//   },
+// ];
 
 /////////////////////////////////////////////////////////////////////////////
 // Variables and HTML selectors
@@ -106,11 +107,11 @@ const questionListBtn = document.querySelector('.question_list_btn');
 const questionLinks = document.getElementById('question_list_links');
 let questionBtns;
 
-const url =
-  'https://script.google.com/macros/s/AKfycbw1OSnxqi3edoAKGR-wtmoztEHkD22BHxBLuFYhI73P410otZawlrMIgYT2yCXGWQLg/exec';
-
 // about section
 const about = document.querySelector('.about');
+
+const url =
+  'https://script.google.com/macros/s/AKfycbw1OSnxqi3edoAKGR-wtmoztEHkD22BHxBLuFYhI73P410otZawlrMIgYT2yCXGWQLg/exec';
 
 /////////////////////////////////////////////////////////////////////////////////
 // Functions
@@ -121,13 +122,10 @@ const getGS = function () {
     .then(d => d.json())
     .then(d => {
       console.log(d);
-      // questions = d;
-      // console.log(questions);
-      // displayQuestions(d);
+      questions = d;
       createQuestionList(d);
     });
 };
-getGS();
 
 // hide element
 const hideElement = el => el.classList.add('hide');
@@ -424,6 +422,7 @@ skipBtn.addEventListener('click', skipFunction);
 const displayQuestion = function (qNumber) {
   showElement(questionArea);
   displayQuestionNumber(+qNumber + 1);
+  console.log(qNumber);
   questionText.textContent = questions[qNumber].question;
   answerBox.focus();
   questionCounter = +qNumber;
@@ -490,6 +489,7 @@ menu.addEventListener('click', function (e) {
 
 const init = function () {
   // questions.forEach((q, i) => createQuestionList(q, i));
+  getGS();
   displayQuestion(questionCounter);
   displayQuestionNumber(questionCounter + 1);
   hideSections();
