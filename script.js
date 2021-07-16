@@ -1,65 +1,9 @@
 'use strict';
 
-// Question Objects
-let questions = [];
-// const questions = [
-//   {
-//     // Question 1
-//     questionType: 'trivia',
-//     questionName: 'Capital of Canada',
-//     question: 'What is the capital of Canada?',
-//     answers: ['ottawa', 'ottowa', 'otawa', 'otowa'],
-//     correctAnswerMessage: 'Correct 😁 That IS the capital of Canada 🍁',
-//     wrongAnswerMessage: 'Incorrect 😞 The capital of Canada is Ottawa 🍁',
-//   },
-//   {
-//     // Question 2
-//     questionType: 'open',
-//     questionName: 'Cheese',
-//     question: 'Name a cheese.',
-//     message: 'Thank you for naming a cheese 🧀',
-//   },
-//   {
-//     // Question 3
-//     questionType: 'open',
-//     questionName: 'Greatest Athlete',
-//     question: 'Who is the greatest athlete of all time?',
-//     message: 'Thank you for naming an athlete 🏅',
-//   },
-//   {
-//     // Question 4
-//     questionType: 'open',
-//     questionName: 'Serial Killer',
-//     question: 'Who is the most famous serial killer?',
-//     message: 'Thank you for naming a serial killer!🔪 ',
-//   },
-//   {
-//     // Question 5
-//     questionType: 'trivia',
-//     questionName: 'Ariana Grande',
-//     question: `Without looking it up: What is Ariana Grande's race/ethnicity?`,
-//     answers: ['white', 'caucasian'],
-//     correctAnswerMessage: `That's right! Who knew?`,
-//     wrongAnswerMessage: `That's wrong ☹ Ariana Grande is white 👩‍🦳`,
-//   },
-//   {
-//     // Question 6
-//     questionType: 'open',
-//     questionName: 'Fall from grace',
-//     question: `Which athlete had the greatest fall from grace?`,
-//     message: `Thank you for submitting a disgraced athlete`,
-//   },
-//   {
-//     // Question 7
-//     questionType: 'open',
-//     questionName: 'Chinese Food',
-//     question: 'Name a Chinese food.',
-//     message: `Thank you for naming a Chinese food`,
-//   },
-// ];
-
 /////////////////////////////////////////////////////////////////////////////
 // Variables and HTML selectors
+// Question Objects from GS
+let questions = [];
 let questionCounter = 0;
 // main section
 const mainSections = document.querySelectorAll('.section');
@@ -134,6 +78,29 @@ const getGS = function () {
     });
 };
 
+// POST request to Google Sheets
+const obj = {
+  questionType: 'trivia',
+  questionName: 'Capital of Canada',
+  question: 'What is the capital of Canada?',
+  answers: 'ottawa,ottowa,otawa,otowa',
+  correctAnswerMessage: 'Correct 😁 That IS the capital of Canada 🍁',
+  wrongAnswerMessage: 'Incorrect 😞 The capital of Canada is Ottawa 🍁',
+};
+
+const addGS = function (data) {
+  fetch(url, {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'no-cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    redirect: 'follow',
+    body: JSON.stringify(data),
+  });
+};
+
 // hide element
 const hideElement = el => el.classList.add('hide');
 
@@ -200,7 +167,7 @@ const activateMenuBtn = function (type) {
 };
 
 // create question list menu area
-const createQuestionList = function (data) {
+const createQuestionList = function (data, i) {
   console.log(data);
   data.forEach((question, i) => {
     questionLinks.insertAdjacentHTML(
@@ -328,9 +295,10 @@ submitPollBtn.forEach(btn => {
     }
     // add new question to question array
     questions.push(newQuestion);
+    addGS(newQuestion);
 
     // add new question to question list
-    createQuestionList(newQuestion, questions.indexOf(newQuestion));
+    createQuestionList(questions, questions.indexOf(newQuestion));
     // update UI
     questionData.forEach(field => (field.value = ''));
     showElement(questionArea);
@@ -369,6 +337,7 @@ const startPolling = function () {
   activateMenuBtn('question_list_btn');
   activateQuestionBtn(questionCounter);
   answerBox.focus();
+  displayQuestion(questionCounter);
 };
 
 startPollingBtn.addEventListener('click', startPolling);
@@ -457,6 +426,10 @@ menu.addEventListener('click', function (e) {
     clicked.classList.add('btn-activate');
   }
 
+  if (clicked.classList.contains('question_list_btn')) {
+    displayQuestion(questionCounter);
+  }
+
   // deactivate any previously active buttons
   const siblings = clicked.closest('nav').querySelectorAll('.menu_btn');
   deactivateSiblings(clicked, siblings, 'btn-activate', 'btn-deactivate');
@@ -487,9 +460,9 @@ menu.addEventListener('click', function (e) {
 const init = function () {
   // questions.forEach((q, i) => createQuestionList(q, i));
   getGS();
-  displayQuestion(questionCounter);
-  displayQuestionNumber(questionCounter + 1);
-  hideSections();
+  // displayQuestion(questionCounter);
+  // displayQuestionNumber(questionCounter + 1);
+  // hideSections();
 };
 
 init();
