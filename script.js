@@ -80,14 +80,6 @@ const getGS = function () {
 };
 
 // POST request to Google Sheets
-const obj = {
-  questionType: 'trivia',
-  questionName: 'Capital of Canada',
-  question: 'What is the capital of Canada?',
-  answers: 'ottawa,ottowa,otawa,otowa',
-  correctAnswerMessage: 'Correct 😁 That IS the capital of Canada 🍁',
-  wrongAnswerMessage: 'Incorrect 😞 The capital of Canada is Ottawa 🍁',
-};
 
 const addGS = function (data) {
   fetch(url, {
@@ -199,11 +191,20 @@ const checkAnswer = e => {
     answerMessage.textContent = `You didn't type anything. Please enter something.`;
 
     // process answer according to question type
-  } else {
+  }
+
+  if (answerBox.value !== '') {
     switch (questions[questionCounter].questionType) {
       case 'trivia':
         triviaQuestion(answerBox.value.toLowerCase().trim());
         insertResults(answerBox.value);
+        const triviaAnswerData = {
+          type: 'triviaAnswers',
+          questionName: questions[questionCounter].questionName,
+          answer: answerBox.value,
+        };
+        console.log(JSON.stringify(triviaAnswerData));
+        addGS(triviaAnswerData);
         break;
       case 'open':
         openQuestion(answerBox.value);
@@ -293,7 +294,14 @@ submitPollBtn.forEach(btn => {
     }
     // add new question to question array
     questions.push(newQuestion);
-    addGS(newQuestion);
+    console.log(newQuestion);
+
+    function fixArray(newPollObj) {
+      newPollObj.answers = newPollObj.answers.toString();
+      return newPollObj;
+    }
+
+    addGS(fixArray(newQuestion));
 
     // add new question to question list
     createQuestionList(newQuestion, questions.indexOf(newQuestion));
