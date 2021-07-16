@@ -74,7 +74,8 @@ const getGS = function () {
         fixedData.push(question);
       });
       questions = fixedData;
-      createQuestionList(questions);
+      // createQuestionList(questions);
+      questions.forEach((q, i) => createQuestionList(q, i));
     });
 };
 
@@ -167,14 +168,11 @@ const activateMenuBtn = function (type) {
 };
 
 // create question list menu area
-const createQuestionList = function (data, i) {
-  console.log(data);
-  data.forEach((question, i) => {
-    questionLinks.insertAdjacentHTML(
-      'beforeend',
-      `<li><button type="button" class="question_btn btn generic_btn_size space" data-q="${i}">${question.questionName}</button></li>`
-    );
-  });
+const createQuestionList = function (question, i) {
+  questionLinks.insertAdjacentHTML(
+    'beforeend',
+    `<li><button type="button" class="question_btn btn generic_btn_size space" data-q="${i}">${question.questionName}</button></li>`
+  );
   questionBtns = document.querySelectorAll('.question_btn');
 };
 
@@ -298,7 +296,7 @@ submitPollBtn.forEach(btn => {
     addGS(newQuestion);
 
     // add new question to question list
-    createQuestionList(questions, questions.indexOf(newQuestion));
+    createQuestionList(newQuestion, questions.indexOf(newQuestion));
     // update UI
     questionData.forEach(field => (field.value = ''));
     showElement(questionArea);
