@@ -203,12 +203,17 @@ const checkAnswer = e => {
           questionName: questions[questionCounter].questionName,
           answer: answerBox.value,
         };
-        console.log(JSON.stringify(triviaAnswerData));
         addGS(triviaAnswerData);
         break;
       case 'open':
         openQuestion(answerBox.value);
         insertResults(answerBox.value);
+        const openAnswerData = {
+          type: 'openAnswers',
+          questionName: questions[questionCounter].questionName,
+          answer: answerBox.value,
+        };
+        addGS(openAnswerData);
         break;
       default:
         console.log(`something went wrong`);
