@@ -66,7 +66,6 @@ const getGS = function () {
   fetch(url)
     .then(data => data.json())
     .then(data => {
-      console.log(data);
       data.forEach((question, i) => {
         if (question.answers) {
           question.answers = question.answers.split(',');
@@ -189,10 +188,9 @@ const checkAnswer = e => {
   // check for blank text
   if (answerBox.value === '') {
     answerMessage.textContent = `You didn't type anything. Please enter something.`;
-
-    // process answer according to question type
   }
 
+  // process answer according to question type
   if (answerBox.value !== '') {
     switch (questions[questionCounter].questionType) {
       case 'trivia':
@@ -299,7 +297,6 @@ submitPollBtn.forEach(btn => {
     }
     // add new question to question array
     questions.push(newQuestion);
-    console.log(newQuestion);
 
     function fixArray(newPollObj) {
       newPollObj.answers = newPollObj.answers.toString();
@@ -399,7 +396,6 @@ skipBtn.addEventListener('click', skipFunction);
 const displayQuestion = function (qNumber) {
   showElement(questionArea);
   displayQuestionNumber(+qNumber + 1);
-  console.log(qNumber);
   questionText.textContent = questions[qNumber].question;
   answerBox.focus();
   questionCounter = +qNumber;
