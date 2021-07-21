@@ -199,7 +199,7 @@ const checkAnswer = e => {
         const triviaAnswerData = {
           type: 'triviaAnswers',
           questionName: questions[questionCounter].questionName,
-          answer: answerBox.value,
+          answer: answerBox.value.toLowerCase(),
         };
         addGS(triviaAnswerData);
         break;
@@ -209,7 +209,7 @@ const checkAnswer = e => {
         const openAnswerData = {
           type: 'openAnswers',
           questionName: questions[questionCounter].questionName,
-          answer: answerBox.value,
+          answer: answerBox.value.toLowerCase(),
         };
         addGS(openAnswerData);
         break;
