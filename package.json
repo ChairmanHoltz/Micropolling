@@ -1,0 +1,25 @@
+{
+  "name": "micropolling",
+  "version": "1.0.0",
+  "description": "micropolling",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChairmanHoltz/Micropolling.git"
+  },
+  "author": "Christopher Holtz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ChairmanHoltz/Micropolling/issues"
+  },
+  "homepage": "https://github.com/ChairmanHoltz/Micropolling#readme",
+  "dependencies": {
+    "regenerator-runtime": "^0.13.9"
+  },
+  "devDependencies": {
+    "parcel": "^2.0.0-rc.0"
+  }
+}

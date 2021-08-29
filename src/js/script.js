@@ -62,18 +62,17 @@ const url =
 
 // GET request to Google Sheets
 const getGS = function () {
-  let fixedData = [];
+  // let fixedData = [];
   fetch(url)
     .then(data => data.json())
     .then(data => {
-      data.forEach((question, i) => {
+      data.forEach(question => {
         if (question.answers) {
           question.answers = question.answers.split(',');
         }
-        fixedData.push(question);
+        questions.push(question);
       });
-      questions = fixedData;
-      // createQuestionList(questions);
+      // questions = fixedData;
       questions.forEach((q, i) => createQuestionList(q, i));
     });
 };
