@@ -1,5 +1,5 @@
 import { GS_API_URL } from './config.js';
-import { getJSON } from './helpers.js';
+import { AJAX, getJSON } from './helpers.js';
 // import { async } from 'regenerator-runtime';
 
 export const state = {
@@ -10,11 +10,12 @@ export const state = {
 
 export const loadQuestionsData = async function () {
   try {
-    const data = await getJSON(GS_API_URL);
-    data.forEach(question => {
+    const questionData = await AJAX(GS_API_URL);
+    questionData.forEach((question, i) => {
       if (question.answers) {
         question.answers = question.answers.split(',');
       }
+      question.questionNumber = i + 1;
       state.questions.push(question);
     });
     console.log(state.questions);
@@ -24,21 +25,36 @@ export const loadQuestionsData = async function () {
 };
 
 export const loadAnswerData = async function () {
+  const answerData = await AJAX(GS_API_URL);
+};
+
+export const uploadAnswer = async function (uploadData) {
   try {
+    await AJAX(GS_API_URL, uploadData);
+    console.log('success');
   } catch (err) {
     console.log(err);
   }
 };
 
-export const postToDatabase = function (data) {
-  fetch(GS_API_URL, {
-    method: 'POST',
-    mode: 'no-cors',
-    cache: 'no-cache',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    redirect: 'follow',
-    body: JSON.stringify(data),
-  });
+export const submitAnswer = function (answer) {
+  if (state.questions[state.questionCounter].questionType === 'trivia')
+    state.questions[state.questionCounter].answers.includes(answer)
+      ? true
+      : false;
+
+  if (state.questions[state.questionCounter].questionType === 'open')
+    console.log('open');
 };
+
+// export const getActiveMenuItem = function () {};
+
+const init = async function () {
+  try {
+    await loadQuestionsData();
+    console.log('success');
+  } catch (err) {
+    console.log(err);
+  }
+};
+init();

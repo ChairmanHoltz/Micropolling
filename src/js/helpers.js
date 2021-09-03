@@ -17,3 +17,27 @@ export const getJSON = async function (url) {
     console.log(err);
   }
 };
+
+export const AJAX = async function (url, uploadData = undefined) {
+  try {
+    const fetchPro = uploadData
+      ? fetch(url, {
+          method: 'POST',
+          mode: 'no-cors',
+          cache: 'no-cache',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          redirect: 'follow',
+          body: JSON.stringify(data),
+        })
+      : fetch(url);
+    const res = await Promise.race([fetchPro, timeout(TIMEOUT_SEC)]);
+    const data = res.json();
+
+    if (!res.ok) throw new Error('error');
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};

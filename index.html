@@ -17,43 +17,49 @@
     <div class="center_start_btn hide">
       <button class="btn btn_start">Enter microPolling™!</button>
     </div>
-    
-  <!-- Main Page Grid Container -->
+
+    <!-- Main Page Grid Container -->
     <main class="grid">
       <!-- Menu Buttons -->
       <div class="sticky">
-        <nav class="menu sticky">
+        <nav class="main_menu menu sticky">
           <h2>Menu</h2>
-          <button class="menu btn menu_btn about_btn" data-menu="1">About</button>
-          <button class="menu btn menu_btn question_list_btn" data-menu="2">Questions</button>
-          <button class="menu btn menu_btn your_answers_btn" data-menu="3">Your Answers</button>
-          <button class="menu btn menu_btn goto_results_btn" data-menu="4">Results</button>
+          <button class="menu btn menu_btn about_btn" data-menu="1">
+            About
+          </button>
+          <button class="menu btn menu_btn question_list_btn" data-menu="2">
+            Questions
+          </button>
+          <button class="menu btn menu_btn your_answers_btn" data-menu="3">
+            Your Answers
+          </button>
+          <button class="menu btn menu_btn goto_results_btn" data-menu="4">
+            Results
+          </button>
           <button class="menu btn menu_btn create_poll_btn" data-menu="5">
             Create microPoll™
           </button>
         </nav>
       </div>
-      
+
       <!-- Question List -->
       <section class="question_list hide">
         <h2 class="section_heading">Polling Questions</h2>
-        <ol style="list-style: decimal" id="question_list_links">
-          
-        </ol>
+        <ol style="list-style: decimal" id="question_list_links"></ol>
       </section>
-      
-      
-    <!-- Main Area Sections -->
-      <!-- About -->
-      <section class="section sticky about menu_active--1 hide">
+
+      <!-- Main Area Sections -->
+      <div class="content_area sticky">
+        <!-- About -->
+        <!-- <section class="section sticky about menu_active--1 hide">
         <h2 class="section_heading">About microPolling™</h2>
         <p>microPolling™ is about gathering informal survey data for low-stakes questions. What's the first cheese people think of? That's a job for microPolling™! microPolling™ provides no definitive answers, only fodder for future heated discussions about pointless minutiae.</p>
         <button class="btn generic_btn_size" id="start_polling">Start microPolling™ Now!</button>
-      </section>
-      
-      <!-- Questions -->
-      <section class="section sticky question_area menu_active--2">
-        <!-- <h2 class="question_number"></h2>
+      </section> -->
+
+        <!-- Questions -->
+        <!-- <section class="section sticky question_area menu_active--2">
+        <h2 class="question_number"></h2>
         <div class="question"></div>
         <form class="submit">
           <input class="input_box space" /> <br />
@@ -67,22 +73,22 @@
         <br />
         <button class="btn generic_btn_size see_results hide">
           See Results!
-        </button> -->
-      </section>
+        </button>
+      </section> -->
 
-      <!-- Your Answers -->
-      <section class="section sticky your_answers menu_active--3 hide">
-        <h2 class="section_heading">Your Answers</h2>
-      </section>
+        <!-- Your Answers -->
+        <section class="section sticky your_answers menu_active--3 hide">
+          <h2 class="section_heading">Your Answers</h2>
+        </section>
 
-      <!-- Results Page -->
-      <section class="section sticky results menu_active--4 hide">
-        <h2 class="section_heading">microPolling™ Results</h2>
-        <div class="container_results"></div>
-      </section>
+        <!-- Results Page -->
+        <section class="section sticky results menu_active--4 hide">
+          <h2 class="section_heading">microPolling™ Results</h2>
+          <div class="container_results"></div>
+        </section>
 
-      <!-- Create Poll -->
-      <section class="section sticky create_poll menu_active--5 hide">
+        <!-- Create Poll -->
+        <!-- <section class="section sticky create_poll menu_active--5 hide">
         <h2 class="section_heading">Create New microPoll™!</h2>
         <form class="select_question_type">
           <label for="question_type">Question Type:</label><br />
@@ -98,10 +104,10 @@
             <option value="trivia">Trivia Question</option>
             <option value="open">Open Question</option>
           </select>
-        </form>
+        </form> -->
 
         <!-- Trivia Question -->
-        <form class="trivia_question_fields hide">
+        <!-- <form class="trivia_question_fields hide">
           <label for="questionName">Question Name:</label><br />
           <input
             type="text"
@@ -155,10 +161,10 @@
             id="submit-trivia"
             value="Create microPoll™!"
           />
-        </form>
+        </form> -->
 
         <!-- Open Question Fields -->
-        <form class="open_question_fields hide">
+        <!-- <form class="open_question_fields hide">
           <label for="questionName">Question Name:</label><br />
           <input
             type="text"
@@ -180,12 +186,11 @@
           <label for="message">Answer submission message:</label><br/>
           <textarea rows="2" cols="50" class="question_data open input_box space" id="message-open" name="message" placeholder="Message to display after answer is submitted"></textarea><br/>
           <input type="button" class="btn generic_btn_size submit_poll_btn space" id="submit-open" value="Create microPoll™!">
-      </section>
+      </section> -->
+      </div>
       <div class="footer" title="Copyright makes the world worse">
         Copyright
       </div>
-
     </main>
-
   </body>
 </html>
