@@ -49,12 +49,12 @@ export const submitAnswer = function (answer) {
 
 // export const getActiveMenuItem = function () {};
 
-const init = async function () {
-  try {
-    await loadQuestionsData();
-    console.log('success');
-  } catch (err) {
-    console.log(err);
-  }
-};
-init();
+// const init = async function () {
+//   try {
+//     await loadQuestionsData();
+//     console.log('success');
+//   } catch (err) {
+//     console.log(err);
+//   }
+// };
+// init();

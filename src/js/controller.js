@@ -4,45 +4,68 @@ import menuView from './views/menuView.js';
 import aboutView from './views/aboutView.js';
 import createMicroPollView from './views/createMicroPollView.js';
 
+const controlContentArea = function () {
+  questionAreaView.displayQuestion(
+    model.state.questions[model.state.questionCounter]
+  );
+};
+
 // Controls left Menu
-const controlMenuBtns = function (activeMenuItem) {
-  console.log(activeMenuItem);
-  switch (activeMenuItem) {
-    case 1:
-      aboutView.render();
-      break;
-    case 2:
-      questionAreaView.render(
-        model.state.questions[model.state.questionCounter]
-      );
-      questionAreaView.addHandlerSubmitForm(controlAnswerSubmit);
-      break;
-    case 5:
-      createMicroPollView.render();
-      break;
-    default:
-      console.log('something went wrong');
-  }
+const controlMenuBtns = function (activeMenuHTML) {
+  console.log(activeMenuHTML);
+  activeMenuHTML.classList.toggle('hide');
+
+  // switch (activeMenuItem) {
+  //   case 1:
+  //     aboutView.render();
+  //     break;
+  //   case 2:
+  //     questionAreaView.render(
+  //       model.state.questions[model.state.questionCounter]
+  //     );
+  //     questionAreaView.grabBtnElements();
+  //     questionAreaView.addHandlerNextAndSkipBtns(controlNextAndSkipBtns);
+  //     questionAreaView.addHandlerSubmitForm(controlAnswerSubmit);
+  //     break;
+  //   case 5:
+  //     createMicroPollView.render();
+  //     break;
+  //   default:
+  //     console.log('something went wrong');
+  // }
 };
 
 // Checks answer and displays answer message
 const controlAnswerSubmit = function () {
   const answer = questionAreaView.getAnswer();
+  console.log(answer);
   if (!answer) return;
-  if (answer) {
-    model.submitAnswer(answer);
-    questionAreaView.displayAnswerMessage(
-      model.state.questions[model.state.questionCounter].correctAnswerMessage
-    );
-  }
+  console.log(model.submitAnswer(answer));
+  model.submitAnswer(answer)
+    ? questionAreaView.displayAnswerMessage(
+        model.state.questions[model.state.questionCounter].correctAnswerMessage
+      )
+    : questionAreaView.displayAnswerMessage(
+        model.state.questions[model.state.questionCounter].wrongAnswerMessage
+      );
 };
 
 const controlNextAndSkipBtns = function () {
-  console.log('btn');
+  model.state.questionCounter++;
+  questionAreaView.displayQuestion(
+    model.state.questions[model.state.questionCounter]
+  );
 };
 
-const init = function () {
-  menuView.addHandlerMenuBtns(controlMenuBtns);
-  questionAreaView.addHandlerNextAndSkipBtns(controlNextAndSkipBtns);
+const init = async function () {
+  try {
+    await model.loadQuestionsData();
+    menuView.addHandlerMenuBtns();
+    questionAreaView.addHandlerNextAndSkipBtns(controlNextAndSkipBtns);
+    questionAreaView.addHandlerSubmitForm(controlAnswerSubmit);
+    controlContentArea();
+  } catch (err) {
+    console.log(err);
+  }
 };
 init();

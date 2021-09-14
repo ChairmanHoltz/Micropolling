@@ -18,7 +18,7 @@ const startBtn = document.querySelector('.btn_start');
 const submitForm = document.querySelector('.submit');
 const submitBtn = document.querySelector('.submit_btn');
 const skipBtn = document.querySelector('.skip_btn');
-const nextQuestionBtn = document.querySelector('.next_question');
+const nextQuestionBtn = document.querySelector('.next_btn');
 const startPollingBtn = document.querySelector('#start_polling');
 
 //results page

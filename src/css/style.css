@@ -63,6 +63,11 @@ body {
   gap: 10px;
 }
 
+.main_menu {
+  margin-top: 40%;
+  position: static;
+}
+
 .menu {
   grid-column: 1;
   grid-row: auto;
@@ -188,7 +193,7 @@ body {
   padding-top: 10em;
 }
 
-.next_question {
+.next_btn {
   width: 150px;
 }
 
